@@ -4,7 +4,10 @@ use strict; #this enforces you to declare variables before using them
 use warnings;
 package Learning::chapter::03;
 
-
+=begin comment
+This chapter is about lists, arrays, stacks and hash tables
+=end comment
+=cut
 =begin comment
 List in perl is ()
 e.g. (43, "Hello", "World", 69)

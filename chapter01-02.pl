@@ -6,6 +6,13 @@ package Learning::chapter::0102;
 #this is a one line comment
 
 =begin comment
+This chapter is about the first steps in Perl
+and working with simple values
+=end comment
+=cut
+
+
+=begin comment
 This is a multi-line commment
 Hello world
 This is Mahesh!
