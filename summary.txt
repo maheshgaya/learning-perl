@@ -1,0 +1,686 @@
+Hello, World.
+1: # learning-perl
+2: Learning perl for server scripting
+3: 
+4: Book: [Beginning Perl](https://learn.perl.org/books/beginning-perl/)
+5: 
+6: ## How to use the source code
+7: Clone the repository and run the source code
+8:   
+9:   ```
+10:    $ git clone https://github.com/maheshgaya/learning-perl.git
+11:    $ cd learning-perl/
+12:    $ perl learning\ perl.pl 
+13:   ```
+14: **Note: Make sure you have [Perl installed](https://learn.perl.org/installing/).**
+
+		File: chapter05.pl
+
+1: #!/usr/bin/perl
+2: # header
+3: use strict;
+4: use warnings;
+5: package Learning::chapter::05;
+6: =begin comment
+7: Regular Expression
+8: =end comment
+9: =cut
+10: 
+11: sub simple_regex{
+12:   my $found = 0;
+13:   $_ = "Nobody wants to hurt you.. 'cept, I do hurt people sometimes, Case.";
+14:   #without regex
+15:   my $sought = "people";
+16: 
+17:   foreach my $word(split){
+18:     if ($word eq $sought){
+19:       $found = 1;
+20:       last;
+21:     }
+22:   }
+23: 
+24:   if ($found){
+25:     print "Hooray! Found the word 'people' without regex\n";
+26:   }
+27: 
+28:   #with regex
+29:   #=~ means bind the pattern to another string
+30:   if ($_ =~ /people/){
+31:     print "Hooray! Found the word 'people' with regex\n";
+32:   }
+33: 
+34:   #simpler version for this case
+35:   if (/people/){
+36:     print "Hooray! Found the word 'people' with regex but in a simpler version\n";
+37:   }
+38: 
+39:   #now with other variables
+40:   my $gibson =
+41:       "Nobody wants to hurt you.. 'cept, I do hurt people sometimes, Case.";
+42:   if ($gibson !~ /fish/){
+43:     print "There is no fish in William Gibson.\n";
+44:   }
+45: 
+46:   if (/I do/){
+47:     print "'I do' is in that string.\n";
+48:   }
+49: 
+50:   if (/sometimes Case/){
+51:     print "'sometimes Case' matched.\n";
+52:   }
+53: 
+54: }
+55: &simple_regex();
+56: 
+57: #Other regex in the tutorial
+58: #http://blob.perl.org/books/beginning-perl/3145_Chap05.pdf
+
+		File: chapter04.pl
+
+1: #!/usr/bin/perl
+2: # header
+3: use strict; #this enforces you to declare variables before using them
+4: use warnings;
+5: package Learning::chapter::04;
+6: =begin comment
+7: This chapter is about loops and decisions
+8: =end comment
+9: =cut
+10: 
+11: #Multiple currency converter
+12: sub calculate_currency{
+13:   my ($value, $from, $to, $rate, %rates);
+14:   %rates = (
+15:     pounds => 1,
+16:     dollars => 1.6,
+17:     marks => 3.0,
+18:     "french francs" => 10.0,
+19:     yen => 174.8,
+20:     "swiss francs" => 2.43,
+21:     drachma => 492.3,
+22:     euro => 1.5
+23:   );
+24: 
+25:   print "Enter your starting currency: ";
+26:   $from = <STDIN>;
+27:   print "Enter your target currency: ";
+28:   $to = <STDIN>;
+29:   print "Enter your amount: ";
+30:   $value = <STDIN>;
+31:   chomp($from, $to, $value);
+32:   #if statement
+33:   if (not exists $rates{$to}){
+34:     die "I don't know anything about $to as a currency\n";
+35:   }
+36:   if (not exists $rates{$from}){
+37:     die "I don't know anything about $from as a currency";
+38:   }
+39:   $rate = $rates{$to} / $rates{$from};
+40: 
+41:   print "$value $from is ", $value*$rate, " $to.\n";
+42: }
+43: 
+44: #&calculate_currency;
+45: 
+46: =begin comment
+47: logical operators
+48: =end comment
+49: =cut
+50: sub fun_with_locgical_operators{
+51:   if (()){
+52:     print "1. Yes it is true\n";
+53:   } else {
+54:     print "1. Nope it is NOT true\n";
+55:   }
+56:   if ((())){
+57:     print "2. Yes it is true\n";
+58:   } else {
+59:     print "2. Nope it is NOT true\n";
+60:   }
+61: }
+62: 
+63: &fun_with_locgical_operators;
+64: 
+65: sub comparison{
+66:   #for numbers
+67:   my $number1 = 900;
+68:   my $number2 = 900;
+69:   if ($number1 > $number2){
+70:     print "$number1 is greater than $number2\n";
+71:   } elsif ($number1 == $number2){
+72:     print "$number1 is equal to $number2\n";
+73:   } elsif ($number1 < $number2){
+74:     print "$number1 is less than $number2\n";
+75:   }
+76: 
+77:   #for strings
+78:   #use gt, le, eq, ne
+79:   my $a = "hello";
+80:   my $b = "world";
+81: 
+82:   if ($a gt $b){
+83:     print "$a is greater than $b\n";
+84:   } elsif ($a eq $b){
+85:     print "$a is equal to $b\n";
+86:   } elsif ($a le $b){
+87:     print "$a is less than $b\n";
+88:   }
+89: 
+90:   #checking for password
+91:   my $password = "helloworld";
+92:   print "Enter the password: ";
+93:   my $guess = <STDIN>;
+94:   chomp $guess;
+95:   #test if the variable has a value then show results
+96:   if (defined $guess){
+97:     if ($password eq $guess){
+98:       print "Pass, friend.\n";
+99:     }
+100:     if ($password ne $guess){
+101:       die "Go away, imposter!\n";
+102:     }
+103:   }
+104: 
+105: }
+106: 
+107: &comparison;
+108: 
+109: =begin comment
+110: logical conjunctions
+111: =end comment
+112: =cut
+113: sub conjunction{
+114:   my $a = 0;
+115:   my $b = 1;
+116:   if ($a and $b){
+117:     print ($a, " and ", $b, " is true\n");
+118:   }elsif ($a or $b){
+119:     print ($a, " or ", $b, " is true\n");
+120:   }
+121:   if (not $a){
+122:     print($a, " is false\n");
+123:   }
+124:   if (not $b){
+125:     print($b, " is false\n");
+126:   }
+127: }
+128: 
+129: &conjunction;
+130: 
+131: 
+132: =begin comment
+133: for loops
+134: =end comment
+135: =cut
+136: sub for_loop{
+137:   my @array = (1,3,5,7,9);
+138:   my $i;
+139:   for $i (@array){
+140:     print $i, "\n";
+141:   }
+142: 
+143:   foreach $i (@array){
+144:     print "Element: ", $i, "\n";
+145:   }
+146: 
+147:   #use it for arrays
+148:   my @word_array = qw(the quick brown fox ran over the lazy dog);
+149:   for (6, 3, 8, 2, 5, 4, 0, 7){
+150:     print "$word_array[$_] ";
+151:   }
+152:   print "\n";
+153: 
+154:   #use it for hashes
+155:   my %hash = (car => "voiture", coach => "car", bus => "autobus");
+156:   for (keys %hash){
+157:     print "English: $_\n";
+158:     print "French: $hash{$_}\n\n";
+159:   }
+160: 
+161:   #aliases and values
+162:   my @numbers = (1..10);
+163:   foreach (@numbers){
+164:     $_++;
+165:   }
+166:   print "Array is now: @array\n";
+167: }
+168: 
+169: &for_loop;
+170: 
+171: 
+172: =begin comment
+173: Statement modifiers
+174: =end comment
+175: =cut
+176: sub if_statement{
+177:   my $error;
+178:   #$error = "error";
+179:   die "something wicked happend " if $error;
+180:   my $total = 0;
+181:   $total += $_ for @ARGV;
+182:   print "The total is $total\n"; # perl chapter04.pl 15 62 3 8 4
+183: }
+184: 
+185: &if_statement;
+186: 
+187: =begin comment
+188: looping While...
+189: =end comment
+190: =cut
+191: sub while_loop{
+192:   my $countdown = 5;
+193:   while ($countdown > 0){
+194:     print "counting down: ", $countdown, "\n";
+195:     $countdown--;
+196:   }
+197: }
+198: &while_loop;
+199: 
+200: =begin comment
+201: do while loop
+202: =end comment
+203: =cut
+204: sub do_while_loop{
+205:   do {
+206:     print "Enter something (press 'Return' to quit): ";
+207:     $_ = <STDIN>;
+208:     chomp;
+209:     my $sdrawkcab = reverse $_;
+210:     print "$sdrawkcab\n";
+211:   } while ($_);
+212:   print "!enod lla\n";
+213: }
+214: &do_while_loop;
+
+		File: chapter03.pl
+
+1: #!/usr/bin/perl
+2: # header
+3: use strict; #this enforces you to declare variables before using them
+4: use warnings;
+5: package Learning::chapter::03;
+6: 
+7: =begin comment
+8: This chapter is about lists, arrays, stacks and hash tables
+9: =end comment
+10: =cut
+11: =begin comment
+12: List in perl is ()
+13: e.g. (43, "Hello", "World", 69)
+14: =end comment
+15: =cut
+16: 
+17: sub fun_with_list{
+18:   print("Hello ", "World", "\n");
+19:   print(12, 23, 34, "\n");
+20:   print("Hello ", "World ", 69, "\n");
+21: }
+22: 
+23: &fun_with_list;
+24: 
+25: =begin comment
+26: Complex List
+27: =end comment
+28: =cut
+29: 
+30: sub fun_with_complex_list{
+31:   print('one', 'two', 'three', 'four', "\n");
+32:   #The above can be written like
+33:   print qw/one two three four/, "\n";
+34:   print qw(one two three four), "\n";
+35:   print qw<one two three four>, "\n";
+36:   print qw{one two three four}, "\n";
+37:   print qw[one two three four], "\n";
+38:   print qw|one two three four|, "\n";
+39: 
+40:   #The one below has no differences
+41:   #perl flattens lists
+42:   print(3, 8, 5, 15, "\n");
+43:   print((3,8),(5,15), "\n");
+44:   print(3,(8,5),15, "\n");
+45: 
+46:   #similarly
+47:   print('one', 'two', 'three', 'four', "\n");
+48:   print(('one', 'two', 'three', 'four', "\n"));
+49:   print(qw(one two theer), 'four', "\n");
+50:   print(qw(one two), q(three), 'four', "\n");
+51:   print(qw(one two three four), "\n");
+52: 
+53:   #Accessing list values
+54:   print(('salt', 'vinegar', 'mustard', 'pepper')[2], "\n");
+55: 
+56:   #List Slices
+57:   print((19, 68, 47, 60, 53, 51, 58, 55, 47)[(4,5,6)], "\n");
+58:   print((19, 68, 47, 60, 53, 51, 58, 55, 47)[4,5,6], "\n");
+59: 
+60:   my $first; my $second;
+61:   ($first, $second) = (1,3);
+62:   print (("heads ", "shoulders ", "knees ", "toes ")[$first, $second], "\n");
+63: 
+64:   #trying something fun
+65:   ($first, $second) = ($second, $first); #this switches the place
+66:   print (("heads ", "shoulders ", "knees ", "toes ")[$first, $second], "\n");
+67: 
+68: }
+69: 
+70: &fun_with_complex_list;
+71: 
+72: =begin comment
+73: Using range
+74: =end comment
+75: =cut
+76: sub fun_with_range{
+77:   print("Counting up: ", (1..6), "\n");
+78:   print("Counting down: ", (6..1), "\n");
+79:   print("Counting down the right way: ", reverse(1..6), "\n");
+80: 
+81:   #this also works with alphabets
+82:   print "alphabets: ", ('a'..'m'), "\n";
+83:   print "alphabets in reverse: ", reverse('n'..'z'), "\n";
+84: 
+85:   #then how about alphanumeric?
+86:   print("Going from 3 to z: ", (3..'z'), "\n");
+87:   #The above will not work as Perl interprets it as
+88:   #print("Going from 3 to z: ", (3..0), "\n");
+89:   print "Going from z to 3: ", ('z'..3), "\n";
+90: }
+91: &fun_with_range;
+92: 
+93: =begin comment
+94: Using Arrays
+95: =end comment
+96: =cut
+97: sub fun_with_arrays{
+98:   my @days;
+99:   @days = qw(Monday Tuesday Wednesday Thursday Friday Saturday Sunday);
+100:   print @days, "\n"; #list context
+101:   #assigning an array to a scalar variable
+102:   my $scalar = @days; #scalar context
+103:   #this will print the number of elements in the array
+104:   print "This is a scalar variable: ", $scalar, "\n";
+105:   #this will print all the values in the array
+106:   print "@days\n";
+107: 
+108:   #adding to an array
+109: 
+110:   my @workdays = qw(Monday Tuesday Wednesday Thursday Friday Saturday);
+111:   my @weekends = qw(Saturday Sunday);
+112:   my @alldays = (@workdays, @weekends);
+113:   print(@alldays, "\n");
+114: 
+115:   my @num1 = 1..5;
+116:   my @num2 = (0, @num1, 6..10);
+117:   print (@num2, "\n");
+118: 
+119:   #accessing single elements
+120:   (my $first, my $second, my $third) = @days; #Declaration in list is allowed. Wow!
+121:   print("First day is ", $first, "\n"); #Monday
+122:   print("Second day is ", $second, "\n"); #Tuesday
+123:   print("Third day is ", $third, "\n"); #Wednesday
+124: 
+125:   print(@days[6], "\n"); #This prints Sunday
+126: 
+127:   #accessing multiple elements
+128:   print(@days[0,2,5..6], "\n");
+129: 
+130:   #running through Arrays
+131:   for my $element (@days){
+132:     print $element, "\n";
+133:   }
+134: 
+135:   #Array Function
+136:   my @count = (1..5);
+137:   for (reverse(@count)){
+138:     print "$_...\n";
+139:     sleep 1;
+140:   }
+141:   print "BLAST OFF!\n";
+142: 
+143: }
+144: &fun_with_arrays;
+145: 
+146: =begin comment
+147: Pop and Push to an array
+148: =end comment
+149: =cut
+150: sub fun_with_stack{
+151:   #we can use the array as a stack
+152:   my @coffee = ("Macchiato", "Cappuccino", "Americano", "Latte");
+153:   @coffee = sort @coffee; #sorts the array
+154:   print(@coffee, "\n");
+155:   push @coffee, "Mocha";
+156:   print(@coffee, "\n");
+157:   pop(@coffee);
+158:   pop(@coffee);
+159:   print(@coffee, "\n");
+160: 
+161: }
+162: 
+163: &fun_with_stack;
+164: 
+165: =begin comment
+166: Using Hashes
+167: =end comment
+168: =cut
+169: sub fun_with_hashes{
+170:   my %where;
+171:   %where = (
+172:     "Gary", "Dallas",
+173:     "Lucy", "Exeter",
+174:     "Ian", "Reading",
+175:     "Samantha", "Oregon",
+176:   );
+177:   print (%where, "\n");
+178: 
+179:   %where = (
+180:     "Gary" => "Dallas",
+181:     "Lucy" => "Exeter",
+182:     "Ian" => "Reading",
+183:     "Samantha" => "Oregon",
+184:   );
+185:   print(%where, "\n");
+186: 
+187:   my @array = qw(Gary Dallas Lucy Exeter Ian Reading Samantha Oregon);
+188:   @array = %where;
+189:   print (@array, "\n");
+190: 
+191:   my $place = "Oregon";
+192:   my %who = reverse %where;
+193:   print "Gary lives in ", $where{Gary}, "\n";
+194:   print "Ian lives in $where{Ian}\n";
+195:   print "$who{Exeter} lives in Exeter\n";
+196:   print "$who{$place} lives in $place\n";
+197: 
+198:   #assigning new values and adding new values
+199:   $where{Eva} = "Denver";
+200:   $where{Samantha} = "California";
+201:   $where{Lucy} = "Tokyo";
+202:   $where{Gary} = "Las Vegas";
+203:   $where{Ian} = "Southampton";
+204: 
+205:   delete $where{Lucy};
+206:   for (keys %where){
+207:     print "$_ lives in $where{$_}\n";
+208:   }
+209: 
+210: }
+211: 
+212: &fun_with_hashes;
+Hello, World.
+1: # learning-perl
+2: Learning perl for server scripting
+3: 
+4: Book: [Beginning Perl](https://learn.perl.org/books/beginning-perl/)
+5: 
+6: ## How to use the source code
+7: Clone the repository and run the source code
+8:   
+9:   ```
+10:    $ git clone https://github.com/maheshgaya/learning-perl.git
+11:    $ cd learning-perl/
+12:    $ perl learning\ perl.pl 
+13:   ```
+14: **Note: Make sure you have [Perl installed](https://learn.perl.org/installing/).**
+
+		File: chapter01-02.pl
+
+1: #!/usr/bin/perl
+2: # header
+3: use strict; #this enforces you to declare variables before using them
+4: use warnings;
+5: package Learning::chapter::0102;
+6: #this is a one line comment
+7: 
+8: =begin comment
+9: This chapter is about the first steps in Perl
+10: and working with simple values
+11: =end comment
+12: =cut
+13: 
+14: 
+15: =begin comment
+16: This is a multi-line commment
+17: Hello world
+18: This is Mahesh!
+19: 
+20: The Escape sequences:
+21: Escape sequences | Meaning
+22: -----------------|----------
+23: \t               | Tab
+24: \n               | Start a new line
+25: \b               | Backspace
+26: \a               | Alarm (rings the system bell)
+27: \x{1F18}         | Unicode character
+28: 
+29: 
+30: Bitwise Operators
+31: Operator  | Meaning
+32: ----------|----------
+33: &         | and
+34: |         | or
+35: ^         | exclusice or
+36: ~         | not
+37: 
+38: 
+39: Truths and Falsehood
+40: Operator  | Meaning
+41: ----------|----------
+42: ==        | is equal to
+43: <         | less than
+44: >         | greater than
+45: <=        | less than or equal to
+46: >=        | greater than or equal to
+47: !=        | not equal to
+48: 
+49: Special Operators
+50: <=>    | gives 0 if equal, -1 if right hand-side is greater,
+51: 1 if left hand-side is bigger
+52: e.g.
+53: 6 <=> 9 = -1
+54: 7 <=> 7 = 0
+55: 8 <=> 4 = 1
+56: 
+57: 
+58: Boolean Operators
+59: Operator  | Meaning | Example
+60: ----------|---------|---------
+61: &&        | and     | 6 > 3 && 12 > 4
+62: ||        | or      | 9 > 7 || 6 > 8
+63: !         | not     | !(2 > 3)
+64: 
+65: STRING OPERATORS
+66: Concatenation Operators
+67: comma or dot
+68: e.g.
+69: print "Print ", "this ", "form ", "\n";
+70: print "Print " . "this " . "one " . "with " . "dot " ."\n";
+71: 
+72: Reptition Operator
+73: print "GO! " x3, "\n";
+74: =end comment
+75: =cut
+76: 
+77: sub greeting{
+78:   print("greeting\n");
+79:   #The obvious hello world program
+80:   print "Hello, world!\n";
+81:   #blocks within blocks
+82:   {
+83:     print "This print statement is inside a block that is inside greeting\n";
+84:     {
+85:       print "I am inside another block\n";
+86:     }
+87:   }
+88: 
+89:   print("\n"); #breaks line
+90: }
+91: 
+92: &greeting();
+93: 
+94: sub fun_with_strings{
+95:   print("fun_with_strings\n");
+96:   #using commas for different strings in one print statment
+97:   print "here ", "we ", "print ", "several ", "strings.\n";
+98:   print ("here ", "we ", "print ", "several ", "strings inside parentheses.\n");
+99:   #single quote vs doube quote
+100:   print("Yes \n processing in double quotes\n");
+101:   print('No \n processing in single quotes');
+102:   print("\n"); #breaks line
+103:   print(qq('"Hi, this is Mahesh!"'));
+104:   print("\n"); #breaks line
+105: }
+106: 
+107: &fun_with_strings();
+108: 
+109: =begin comment
+110: Binary numbers should be preceded by 0
+111: =end comment
+112: =cut
+113: sub fun_with_numbers{
+114: 
+115:   print("fun_with_numbers\n");
+116:   #binary numbers
+117:   print("binary numbers 01101 -> ");
+118:   print(01101);
+119:   print("\n"); #breaks line
+120: 
+121:   #decimal numbers
+122:   print("decimal numbers 25 -> ");
+123:   print(25);
+124:   print("\n"); #breaks line
+125: 
+126:   #binary numbers
+127:   print("binary numbers 011001010110101001010 -> ");
+128:   print(011001010110101001010);
+129:   print("\n"); #breaks line
+130: 
+131:   #hex numbers
+132:   print("hex numbers 0xBEEF -> ");
+133:   print(0xBEEF);
+134:   print("\n"); #breaks line
+135:   print("\n"); #breaks line
+136: }
+137: 
+138: &fun_with_numbers;
+139: 
+140: =begin comment
+141: Using repetition in print statement
+142: =end comment
+143: =cut
+144: sub fun_with_repetition{
+145:   print "GO! " x3, "\n";
+146:   print "Ba". "na"x(4*3), "\n";
+147: }
+148: 
+149: &fun_with_repetition;
+150: 
+151: =begin comment
+152: We will now use variables
+153: =end comment
+154: =cut
+155: sub fun_with_variables{
+156:   my $name = "Mahesh";
+157:   print "My name is ", $name, "\n";
+158: }
+159: 
+160: &fun_with_variables;
