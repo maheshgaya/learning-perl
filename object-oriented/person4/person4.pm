@@ -2,7 +2,8 @@
 package Person;
 #person4.pm
 use strict;
-use warnings;
+use warnings 'all';
+use diagnostics;
 
 sub new{
   my $class = shift;

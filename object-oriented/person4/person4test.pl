@@ -1,7 +1,8 @@
 #!/usr/bin/perl
 #person4test.pl
 use strict;
-use warnings;
+use warnings 'all';
+use diagnostics;
 use Person4;
 
 my $object = Person->new(
@@ -11,4 +12,4 @@ my $object = Person->new(
   occupation => "bombardier"
 );
 
-print "This person's surname is ", $object->surname, "\n";
+print "This person's surname is ", $object->surname(), "\n";
